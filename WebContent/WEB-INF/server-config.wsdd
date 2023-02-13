@@ -1,0 +1,106 @@
+<ns1:deployment 
+xmlns="http://xml.apache.org/axis/wsdd/" 
+xmlns:java="http://xml.apache.org/axis/wsdd/providers/java" 
+xmlns:ns1="http://xml.apache.org/axis/wsdd/">
+ <ns1:globalConfiguration>
+  <ns1:parameter name="sendMultiRefs" value="true"/>
+  <ns1:parameter name="disablePrettyXML" value="true"/>
+  <ns1:parameter name="adminPassword" value="admin"/>
+  <!--ns1:parameter name="attachments.Directory" value="temp"/-->
+  <ns1:parameter name="dotNetSoapEncFix" value="true"/>
+  <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
+  <ns1:parameter name="sendXMLDeclaration" value="true"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
+  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:requestFlow>
+   <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
+    <ns1:parameter name="scope" value="session"/>
+   </ns1:handler>
+   <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
+    <ns1:parameter name="scope" value="request"/>
+    <ns1:parameter name="extension" value=".jwr"/>
+   </ns1:handler>
+  </ns1:requestFlow>
+ </ns1:globalConfiguration>
+ <ns1:handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+ <ns1:handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+ <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ 
+  <!-- Services from SMSSenderService WSDL service -->
+
+  <service name="service" provider="java:RPC" style="document" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://source.webservices.smssender.seda.com"/>
+      <parameter name="wsdlServiceElement" value="SMSSenderService"/>
+      <parameter name="schemaQualified" value="http://srv.webservices.smssender.seda.com,http://dati.webservices.smssender.seda.com"/>
+      <parameter name="schemaUnqualified" value="http://source.webservices.smssender.seda.com"/>
+      <parameter name="wsdlServicePort" value="SMSSenderPort"/>
+      <parameter name="className" value="com.seda.smssender.webservices.source.SMSSenderImplementation"/>
+      <parameter name="wsdlPortType" value="SMSSenderInterface"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getSMSSender" qname="getSMSSender" returnQName="retNS:SMSSenderResponse" xmlns:retNS="http://dati.webservices.smssender.seda.com" returnType="rtns:>SMSSenderResponse" xmlns:rtns="http://dati.webservices.smssender.seda.com" soapAction="" >
+        <parameter qname="pns:SMSSenderRequest" xmlns:pns="http://source.webservices.smssender.seda.com" type="tns:SMSSenderRequestType" xmlns:tns="http://dati.webservices.smssender.seda.com"/>
+        <fault name="SMSSenderFaultException" qname="fns:SMSSenderFault" xmlns:fns="http://srv.webservices.smssender.seda.com" class="com.seda.smssender.webservices.srv.SMSSenderFaultType" type="tns:SMSSenderFaultType" xmlns:tns="http://srv.webservices.smssender.seda.com"/>
+      </operation>
+      <parameter name="allowedMethods" value="getSMSSender"/>
+
+      <typeMapping
+        xmlns:ns="http://srv.webservices.smssender.seda.com"
+        qname="ns:SMSSenderFaultType"
+        type="java:com.seda.smssender.webservices.srv.SMSSenderFaultType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://dati.webservices.smssender.seda.com"
+        qname="ns:>SMSSenderRequestType>SMSDataText"
+        type="java:java.lang.String"
+        serializer="org.apache.axis.encoding.ser.SimpleSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.SimpleDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://dati.webservices.smssender.seda.com"
+        qname="ns:>SMSSenderRequestType>SMSEDataTOList"
+        type="java:java.lang.String"
+        serializer="org.apache.axis.encoding.ser.SimpleSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.SimpleDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://dati.webservices.smssender.seda.com"
+        qname="ns:SMSSenderRequestType"
+        type="java:com.seda.smssender.webservices.dati.SMSSenderRequestType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://dati.webservices.smssender.seda.com"
+        qname="ns:>SMSSenderResponse"
+        type="java:com.seda.smssender.webservices.dati.SMSSenderResponse"
+        serializer="org.apache.axis.encoding.ser.EnumSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.EnumDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+
+ 
+ <ns1:transport name="http">
+  <ns1:requestFlow>
+   <ns1:handler type="URLMapper"/>
+   <ns1:handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+  </ns1:requestFlow>
+  <ns1:parameter name="qs:list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <ns1:parameter name="qs:wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+  <ns1:parameter name="qs.list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <ns1:parameter name="qs.method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <ns1:parameter name="qs:method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <ns1:parameter name="qs.wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+ </ns1:transport>
+ <ns1:transport name="local">
+  <ns1:responseFlow>
+   <ns1:handler type="LocalResponder"/>
+  </ns1:responseFlow>
+ </ns1:transport>
+</ns1:deployment>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:tns="http://dati.webservices.smssender.seda.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://dati.webservices.smssender.seda.com" elementFormDefault="qualified">
+	<xsd:element name="SMSSenderResponse">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="OK"/>
+				<xsd:enumeration value="KO"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:complexType name="SMSSenderRequestType">
+		<xsd:sequence>
+			<xsd:element name="SMSEDataTOList">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="8"/>
+						<xsd:maxLength value="40960"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="SMSDataText">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="256"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="SMSSenderRequest" type="tns:SMSSenderRequestType"/>
+</xsd:schema>

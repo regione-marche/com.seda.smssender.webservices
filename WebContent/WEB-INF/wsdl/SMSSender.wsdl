@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	targetNamespace="http://source.webservices.smssender.seda.com"
+	xmlns:tns="http://source.webservices.smssender.seda.com" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:sd="http://dati.webservices.smssender.seda.com"
+	xmlns:srv="http://srv.webservices.smssender.seda.com" name="SMSSender" >
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://source.webservices.smssender.seda.com">
+			<xsd:import namespace="http://dati.webservices.smssender.seda.com"
+				schemaLocation="xsd/SMSSenderSchema.xsd" />
+			<xsd:import namespace="http://srv.webservices.smssender.seda.com"
+				schemaLocation="xsd/Srv.xsd" />
+			<xsd:element name="SMSSenderRequest"
+				type="sd:SMSSenderRequestType">
+			</xsd:element>
+			<xsd:element name="SMSSenderResponse">
+			</xsd:element>			
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="SMSSenderRequest">
+		<wsdl:part name="in" element="tns:SMSSenderRequest" />
+	</wsdl:message>
+	<wsdl:message name="SMSSenderResponse">
+		<wsdl:part name="out" element="sd:SMSSenderResponse" />
+	</wsdl:message>
+	<wsdl:message name="SMSSenderFault">
+		<wsdl:part name="fault" element="srv:SMSSenderFault"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="SMSSenderInterface">
+		<wsdl:operation name="getSMSSender">
+			<wsdl:input message="tns:SMSSenderRequest" />
+			<wsdl:output message="tns:SMSSenderResponse" />
+			<wsdl:fault name="SMSSenderFaultException" message="tns:SMSSenderFault"></wsdl:fault>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="SMSSenderSOAPBinding" type="tns:SMSSenderInterface">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getSMSSender">
+			<soap:operation soapAction="" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SMSSenderFaultException">
+				<soap:fault name="SMSSenderFaultException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="SMSSenderService">
+		<wsdl:port binding="tns:SMSSenderSOAPBinding" name="SMSSenderPort">
+			<soap:address location="http://10.10.9.107:10110/SMSSender/service" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

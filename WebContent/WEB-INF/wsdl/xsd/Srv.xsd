@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:tns="http://srv.webservices.smssender.seda.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://srv.webservices.smssender.seda.com" elementFormDefault="qualified">
+	<xsd:complexType name="SMSSenderFaultType">
+		<xsd:sequence>
+			<xsd:element name="code" type="xsd:int"/>
+			<xsd:element name="message" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="SMSSenderFault" type="tns:SMSSenderFaultType"/>
+</xsd:schema>
