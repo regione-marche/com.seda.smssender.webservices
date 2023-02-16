@@ -9,10 +9,11 @@
 	<name>com.seda.smssender.webservices</name>
 	<description>com.seda.smssender.webservices</description>
 	
-	 <parent>
+   <parent>
       <groupId>it.maggioli.informatica.base.pom</groupId>
       <artifactId>pagonet-base</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
+      <relativePath/>
    </parent>
 	
 	<build>
