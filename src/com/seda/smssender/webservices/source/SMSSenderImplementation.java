@@ -8,6 +8,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+import com.seda.commons.logger.CustomLoggerManager;
+import com.seda.commons.logger.LoggerWrapper;
 import com.seda.j2ee5.webservice.spi.JaxRpc10WebServiceHandler;
 import com.seda.smssender.webservices.dati.SMSSenderRequestType;
 import com.seda.smssender.webservices.dati.SMSSenderResponse;
@@ -17,13 +20,13 @@ import com.seda.smssender.webservices.srv.SMSSenderFaultType;
 
 public class SMSSenderImplementation extends JaxRpc10WebServiceHandler implements SMSSenderInterface
 {
-	private String loggerContextName = PrintStrings.LOGGER_CONTEXT_NAME.format();
+	protected LoggerWrapper logger = CustomLoggerManager.get(SMSSenderImplementation.class);
 	private String treeContextName = PrintStrings.TREE_CONTEXT_NAME.format();
 
 	public SMSSenderResponse getSMSSender(SMSSenderRequestType in)
 			throws RemoteException, SMSSenderFaultType
 	{
-		logger(loggerContextName);
+		//logger(loggerContextName);
 		SMSSenderResponse smsResponse = SMSSenderResponse.fromValue(SMSSenderResponse._KO);
 		
 		
